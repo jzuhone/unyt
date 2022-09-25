@@ -486,6 +486,9 @@ default_unit_symbol_lut = OrderedDict(
         # logarithmic units
         ("B", (neper_per_bel, dimensions.logarithmic, 0.0, r"\rm{B}", True)),
         ("Np", (1.0, dimensions.logarithmic, 0.0, r"\rm{Np}", True)),
+        # memory units
+        ("byte", (1.0, dimensions.memory, 0.0, r"\rm{byte}", True)),
+        ("bit", (0.125, dimensions.memory, 0.0, r"\rm{bit}", True)),
     ]
 )
 
@@ -518,6 +521,19 @@ unit_prefixes = OrderedDict(
     ]
 )
 
+memory_prefixes = OrderedDict(
+    [
+        ("Ki", (1024, "kibi")),
+        ("Mi", (1024**2, "mebi")),
+        ("Gi", (1024**3, "gibi")),
+        ("Ti", (1024**4, "tebi")),
+        ("Pi", (1024**5, "pebi")),
+        ("Ei", (1024**6, "exbi")),
+        ("Zi", (1024**7, "zebi")),
+        ("Yi", (1024**8, "yobi")),
+    ]
+)
+
 default_base_units = {
     dimensions.mass: "kg",
     dimensions.length: "m",
@@ -526,6 +542,7 @@ default_base_units = {
     dimensions.angle: "radian",
     dimensions.current_mks: "A",
     dimensions.luminous_intensity: "cd",
+    dimensions.memory: "byte",
 }
 
 physical_constants = OrderedDict(
