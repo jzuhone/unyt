@@ -28,6 +28,8 @@ luminous_intensity = Symbol("(luminous_intensity)", positive=True)
 dimensionless = sympify(1)
 #: logarithmic
 logarithmic = Symbol("(logarithmic)", positive=True)
+#: memory
+memory = Symbol("(memory)", positive=True)
 
 #: A list of all of the base dimensions
 base_dimensions = [
@@ -40,6 +42,7 @@ base_dimensions = [
     dimensionless,
     luminous_intensity,
     logarithmic,
+    memory,
 ]
 
 #
