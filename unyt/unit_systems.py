@@ -10,6 +10,7 @@ from unyt._parsing import parse_unyt_expr
 from unyt._unit_lookup_table import (
     default_unit_symbol_lut as default_lut,
     inv_name_alternatives,
+    memory_prefixes,
     physical_constants,
     unit_prefixes,
 )
@@ -110,14 +111,19 @@ def _split_prefix(symbol_str, unit_symbol_lut):
     if symbol_str[:2] == "da":
         possible_prefix = "da"
 
-    if possible_prefix in unit_prefixes:
-        # the first character could be a prefix, check the rest of the symbol
-        symbol_wo_pref = symbol_str[1:]
+    if symbol_str[:2] in memory_prefixes:
+        possible_prefix = symbol_str[:2]
 
-        # deca is the only prefix with length 2
-        if symbol_str[:2] == "da":
+    if possible_prefix in unit_prefixes or possible_prefix in memory_prefixes:
+
+        # deca is the only non-memory prefix with length 2
+        if possible_prefix == "da" or (
+            possible_prefix in memory_prefixes and symbol_str[2:] in ["bit", "byte"]
+        ):
             symbol_wo_pref = symbol_str[2:]
-            possible_prefix = "da"
+        else:
+            # the first character could be a prefix, check the rest of the symbol
+            symbol_wo_pref = symbol_str[1:]
 
         entry = unit_symbol_lut.get(symbol_wo_pref, None)
 
@@ -168,14 +174,17 @@ class UnitSystem:
         The base temperature unit of this unit system. Defaults to "K".
     angle_unit : string or :class:`unyt.unit_object.Unit`, optional
         The base angle unit of this unit system. Defaults to "rad".
-    mks_system: boolean, optional
-        Whether or not this unit system has SI-specific units.
-        Default: False
     current_mks_unit : string or :class:`unyt.unit_object.Unit`, optional
         The base current unit of this unit system. Defaults to "A".
     luminous_intensity_unit : string or :class:`unyt.unit_object.Unit`, optional
         The base luminous intensity unit of this unit system.
         Defaults to "cd".
+    logarithmic_unit : string or :class:`unyt.unit_object.Unit`, optional
+        The base logarithmic unit of this unit system. Defaults
+        to "Np".
+    memory_unit : string or :class:`unyt.unit_object.Unit`, optional
+        The base memory unit of this unit system. Defaults
+        to "byte".
     registry : :class:`unyt.unit_registry.UnitRegistry` object
         The unit registry associated with this unit system. Only
         useful for defining unit systems based on code units.
@@ -192,6 +201,7 @@ class UnitSystem:
         current_mks_unit="A",
         luminous_intensity_unit="cd",
         logarithmic_unit="Np",
+        memory_unit="byte",
         registry=None,
     ):
         self.registry = registry
@@ -205,6 +215,7 @@ class UnitSystem:
                 (dimensions.current_mks, current_mks_unit),
                 (dimensions.luminous_intensity, luminous_intensity_unit),
                 (dimensions.logarithmic, logarithmic_unit),
+                (dimensions.memory, memory_unit),
             ]
         )
         for k, v in self.units_map.items():
