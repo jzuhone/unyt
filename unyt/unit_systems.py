@@ -249,6 +249,7 @@ class UnitSystem:
             "current_mks",
             "luminous_intensity",
             "logarithmic",
+            "memory",
         ]
         self.registry = registry
         self.base_units = self.units_map.copy()
