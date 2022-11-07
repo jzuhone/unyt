@@ -521,6 +521,8 @@ unit_prefixes = OrderedDict(
     ]
 )
 
+memory_units = ["bit", "byte"]
+
 memory_prefixes = OrderedDict(
     [
         ("Ki", (1024, "kibi")),
@@ -835,6 +837,9 @@ def generate_name_alternatives():
         elif len(key) > 3 and key.title() != key:
             if all(len(k) > 3 for k in key.split("_")):
                 append_name(names[key], key, key.title())
+        if key in memory_units:
+            for prefix in memory_prefixes:
+                append_name(names[prefix + key], prefix + key, prefix + key)
         if key in default_unit_name_alternatives:
             alternatives = default_unit_name_alternatives[key]
             # Are we SI prefixable or not?

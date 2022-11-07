@@ -15,6 +15,7 @@ from unyt import dimensions as unyt_dims
 from unyt._unit_lookup_table import (
     default_unit_symbol_lut,
     memory_prefixes,
+    memory_units,
     unit_prefixes,
 )
 from unyt.exceptions import SymbolNotFoundError, UnitParseError
@@ -309,7 +310,7 @@ def _lookup_unit_symbol(symbol_str, unit_symbol_lut):
     if prefix:
         # lookup successful, it's a symbol with a prefix
         unit_data = unit_symbol_lut[symbol_wo_prefix]
-        if prefix in memory_prefixes and symbol_wo_prefix in ["bit", "byte"]:
+        if prefix in memory_prefixes and symbol_wo_prefix in memory_units:
             prefix_value = memory_prefixes[prefix][0]
         else:
             prefix_value = unit_prefixes[prefix][0]

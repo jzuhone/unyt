@@ -11,6 +11,7 @@ from unyt._unit_lookup_table import (
     default_unit_symbol_lut as default_lut,
     inv_name_alternatives,
     memory_prefixes,
+    memory_units,
     physical_constants,
     unit_prefixes,
 )
@@ -118,7 +119,7 @@ def _split_prefix(symbol_str, unit_symbol_lut):
 
         # deca is the only non-memory prefix with length 2
         if possible_prefix == "da" or (
-            possible_prefix in memory_prefixes and symbol_str[2:] in ["bit", "byte"]
+            possible_prefix in memory_prefixes and symbol_str[2:] in memory_units
         ):
             symbol_wo_pref = symbol_str[2:]
         else:
